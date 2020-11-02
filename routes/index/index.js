@@ -5,7 +5,14 @@ const cors = require('cors')
 router.use(cors())
 
 router.get('/', (req, res, next) => {
-    res.send({message: " Welcome, if you want more action please contact developer ", status:200})
+    // stimulate async operation for improving performance
+    setImmediate(function () {
+        try {
+            res.send({message: " Welcome, if you want more action please contact developer ", status:200})
+        } catch (e) {
+            res.status(400).send('Invalid JSON string')
+        }
+    })
 })
 
 module.exports = router;
