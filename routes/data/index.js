@@ -1,4 +1,10 @@
 const router = require('express').Router();
 const cors = require('cors');
 
-/* activate cors middleware */
+const users = require("./user");
+
+// routes
+router.use('/users', users);
+// router.use('/task, ')
+
+module.exports = router
