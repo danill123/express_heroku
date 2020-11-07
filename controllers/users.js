@@ -28,31 +28,28 @@ exports.update = async(req, res) => {
 
     if(!id || !name || !address || !company || !jobs || !gender || !email) {
         res.status(400).send({message : " Please Complete your parameter"})
-    } else if(!password) {
-        try {
-            await User.findByIdAndUpdate({_id: id}, {
-                "name" : name,
-                "address" : address,
-                "company" : company,
-                "jobs" : jobs,
-                "gender" : gender,
-                "email" : email 
-            })
-            res.status(200).send({ message: " Successfully update data", status:200})
-        } catch (error) {
-            res.status(500).send({ message: "500 Internal Server Error", status: 400})
-        }
     } else {
-        try {
-            await User.findByIdAndUpdate({_id: id}, {
-                "name" : name,
-                "address" : address,
-                "company" : company,
-                "jobs" : jobs,
-                "gender" : gender,
-                "email" : email,
-                "password": password 
-            })
+        try {      
+            if(!password) {
+                await User.findByIdAndUpdate({_id: id}, {
+                    "name" : name,
+                    "address" : address,
+                    "company" : company,
+                    "jobs" : jobs,
+                    "gender" : gender,
+                    "email" : email 
+                })
+            } else {
+                await User.findByIdAndUpdate({_id: id}, {
+                    "name" : name,
+                    "address" : address,
+                    "company" : company,
+                    "jobs" : jobs,
+                    "gender" : gender,
+                    "email" : email,
+                    "password": password 
+                })
+            }
             res.status(200).send({ message: " Successfully update data", status:200})
         } catch (error) {
             res.status(500).send({ message: "500 Internal Server Error", status: 400})
