@@ -1,12 +1,17 @@
 const User = require("../models/user");
+const bcrypt = require('bcrypt')
 
 exports.create = async(req, res) => {
-    let newUser = new User(req.body);
+    let data = req.body
+    let passcypt = await bcrypt.hash(data['password'], 10)
+    delete data['password']
+    data["password"] = passcypt;
+    let newUser = new User(data)
     try {
         await newUser.save();
-        res.status(200).send({ message: ' Success saving data to database', status: 200 })
+        res.status(200).send({ message: `Success saving data to database `, status: 200 })
     } catch (error) {
-        res.status(400).send({ message: ' Unable to saving data ', status: 400 })
+        res.status(400).send({ message: ` Unable to saving data `, status: 400 })
     }
 }
 
@@ -19,10 +24,11 @@ exports.update = async(req, res) => {
     let jobs = req.body.jobs;
     let gender = req.body.gender;
     let email = req.body.email;
+    let password = req.body.password;
 
     if(!id || !name || !address || !company || !jobs || !gender || !email) {
         res.status(400).send({message : " Please Complete your parameter"})
-    } else {
+    } else if(!password) {
         try {
             await User.findByIdAndUpdate({_id: id}, {
                 "name" : name,
@@ -31,6 +37,21 @@ exports.update = async(req, res) => {
                 "jobs" : jobs,
                 "gender" : gender,
                 "email" : email 
+            })
+            res.status(200).send({ message: " Successfully update data", status:200})
+        } catch (error) {
+            res.status(500).send({ message: "500 Internal Server Error", status: 400})
+        }
+    } else {
+        try {
+            await User.findByIdAndUpdate({_id: id}, {
+                "name" : name,
+                "address" : address,
+                "company" : company,
+                "jobs" : jobs,
+                "gender" : gender,
+                "email" : email,
+                "password": password 
             })
             res.status(200).send({ message: " Successfully update data", status:200})
         } catch (error) {
