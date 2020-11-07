@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const user = require("../../controllers/users")
+const auth = require("../../controllers/auth");
 
 router.get('/', (req, res, next) => {
     // stimulate async operation for improving performance
@@ -11,10 +11,10 @@ router.get('/', (req, res, next) => {
         }
     })
 })
-/*
+
 router.post('/auth', (req, res, next) => {
-    
+    auth.auth(req, res);
 })
-*/
+
 
 module.exports = router;

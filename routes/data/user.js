@@ -1,5 +1,4 @@
 const router = require("express").Router()
-const cors = require("cors");
 const user = require("../../controllers/users");
 
 router.get('/', (req, res, next) => {
@@ -8,6 +7,10 @@ router.get('/', (req, res, next) => {
 
 router.get('/delete/:id', (req, res, next) => {
     user.deletebyid(req, res)
+})
+
+router.get('/byId/:id', (req, res, next) => {
+    user.detail(req, res)
 })
 
 router.post('/insert', (req, res, next) => {
