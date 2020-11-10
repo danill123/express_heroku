@@ -8,10 +8,10 @@ const index = require('./routes/index');
 const data = require('./routes/data');
 
 // middleware
+app.use(cors())
 app.disable('x-powered-by')
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors())
 
 // define route
 app.use('/', index);
